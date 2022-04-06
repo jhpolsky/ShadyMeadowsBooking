@@ -15,7 +15,7 @@
  Given more time, tests would include bad input, particularly database commands to make sure input is sanitized and a user cannot bypass the UI to change the
      internal state of the application
  
- Please note that in the time allotted for this test I did not have a chance to address this bullet point:
+ Please note that in the time allotted for this test I did not have a chance to address these bullet point:
         - Ability to navigate through a calendar to see available dates for booking
      I would have verified this using Cypress and made sure that the bar showing the length of the reservation matches the desired length of stay. That said, this
-     test would have failed as noted above.
+     test would have failed as there does not seem to be any indication of which dates are already booked vs. which ones are free.
