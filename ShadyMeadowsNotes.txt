@@ -1,5 +1,12 @@
-  // Notes: More useful error messages should indicate in which field the error occurred
-  //     phone number input should probably strip dashes and have a minimum size of 10, or require dashes and have a 
+  // Notes: 
+  // More useful error messages should indicate in which field the error occurred
+  // Phone number input should probably strip dashes and have a minimum size of 10, or require dashes and have a 
   //     minimum size of 12--unclear as to why 11 is the minimum length (maybe country code?)
   // I noticed inconsistencies with the way the error messages were displayed during manual testing: with bad input, repeatedly
   //     clicking submit caused the order of the error messages to change
+  // There were a few potential issues with the UI: When selecting a length of stay on the calendar, the bar showing the length of stay does not seem to match the legnth
+  //     stay set by the user. For example, if I were to drag my mouse from 4/15 to 4/16 (one night) the bar would cover 4/15 - 4/17, though it would display "1 night"
+  // It is not immediately obvious how a user selects dates for their stay. The easiest solution for this would be to add helper text indicating that the user should
+  //     drag their mouse over the desired dates
+  // Given more time, tests would include bad input, particularly database commands to make sure input is sanitized and a user cannot bypass the UI to change the
+  //     internal state of the application
