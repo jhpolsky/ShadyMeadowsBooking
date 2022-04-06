@@ -1,0 +1,5 @@
+  // Notes: More useful error messages should indicate in which field the error occurred
+  //     phone number input should probably strip dashes and have a minimum size of 10, or require dashes and have a 
+  //     minimum size of 12--unclear as to why 11 is the minimum length (maybe country code?)
+  // I noticed inconsistencies with the way the error messages were displayed during manual testing: with bad input, repeatedly
+  //     clicking submit caused the order of the error messages to change
