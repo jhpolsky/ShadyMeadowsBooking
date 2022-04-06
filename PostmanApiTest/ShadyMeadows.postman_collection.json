@@ -1,0 +1,81 @@
+{
+	"info": {
+		"_postman_id": "e8bd356e-41f9-41aa-9876-c5b5a7b5f1d0",
+		"name": "ShadyMeadows",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Book Reservation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Booking ID is Returned\", function () {\r",
+							"    var jsonData = pm.response.json()\r",
+							"    pm.expect(jsonData.bookingid).not.eq(undefined)\r",
+							"});\r",
+							"\r",
+							"//increments a counter so that subsequent runs of this request will not create conflict on the same day\r",
+							"var iterationValue = Number(pm.environment.get(\"iterationValue\"));\r",
+							"//Ideally, '1' should be replaced here with the length of stay, so that I can parametrize the length and still be able to run multiple consecutive tests without conflict\r",
+							"pm.environment.set(\"iterationValue\", iterationValue + 1)\r",
+							"\r",
+							"//Given more time, I would create a test that verifies the booking start and end dates in the response. I would also create negative tests that verifies that a user cannot book a request for dates that are already booked, and that a user cannot book a request without required fields being populated, and that a user cannot book a request with invalid data/format in the required fields."
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');\r",
+							"//iterates a value each time this request is run so that the test can be run multiple times per day without conflict\r",
+							"var iterationValue = pm.environment.get(\"iterationValue\")\r",
+							"\r",
+							"\r",
+							"//sets booking start and end dates at a predefined time in the future\r",
+							"pm.environment.set('initialDate', moment().format((\"YYYY-MM-DD\")));\r",
+							"pm.environment.set('bookingStartDate', moment().add(30+iterationValue, 'days').format(\"YYYY-MM-DD\"));\r",
+							"pm.environment.set('bookingEndDate', moment().add(32+iterationValue, 'days').format(\"YYYY-MM-DD\"))\r",
+							"\r",
+							"//Given more time, I would store '30' as a variable to define the length of time between the current date and the start of the reservation. I would also store a variable called bookingLength that defines the number of days between the start date and end date. This would allow for more flexibility in the test. However, in order to do this succesfully and allow the test to be run multiple times, I would have to dynamically set the iterationValue variable based on the start date and the end date. For example, if the length of stay is 2 days, then the iterationValue should increase by two"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bookingdates\": {\r\n        \"checkin\": \"{{bookingStartDate}}\",\r\n        \"checkout\": \"{{bookingEndDate}}\"\r\n    },\r\n    \"depositpaid\": false,\r\n    \"firstname\": \"Cypress\",\r\n    \"lastname\": \"Test\",\r\n    \"roomid\": 1,\r\n    \"email\": \"donotreply@betterlesson.com\",\r\n    \"phone\": \"555-555-5555\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/booking/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"booking",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
